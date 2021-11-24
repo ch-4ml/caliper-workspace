@@ -1,0 +1,23 @@
+name: Caliper test
+version: '2.0.0'
+
+caliper:
+  blockchain: fabric
+
+channels:
+  - channelName: mychannel
+    contracts:
+      - id: fixed-asset
+
+organizations:
+  - mspid: Org1MSP
+    identities:
+      certificates:
+        - name: 'User1'
+          clientPrivateKey:
+            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/0ab8c5d5dc3d0a8c2eeecb480ade8014268c66eae2bb62b8d80923010a9ce44a_sk'
+          clientSignedCert:
+            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem'
+    connectionProfile:
+      path: /home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+      discover: true
