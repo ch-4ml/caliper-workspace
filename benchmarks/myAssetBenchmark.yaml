@@ -5,7 +5,7 @@ test:
     type: local
     number: 2
   rounds:
-    - label: batch-limit-keys
+    - label: create-asset
       description: Round to limit the number of keys and generate assets using batch scheduling
       txDuration: 30
       rateControl:
@@ -13,7 +13,34 @@ test:
         opts:
           transactionLoad: 2
       workload:
-        module: workload/batch-limit-keys.js
+        module: workload/create-asset.js
+        arguments:
+          contractId: fixed-asset
+          byteSize: 8000
+
+    - label: batch-create-asset
+      description: Round to limit the number of keys and generate assets using batch scheduling
+      txDuration: 30
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 2
+      workload:
+        module: workload/batch-create-asset.js
+        arguments:
+          contractId: fixed-asset
+          byteSize: 8000
+          batchSize: 10
+
+    - label: batch-create-asset-limit-keys
+      description: Round to limit the number of keys and generate assets using batch scheduling
+      txDuration: 30
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 2
+      workload:
+        module: workload/batch-create-asset-limit-keys.js
         arguments:
           contractId: fixed-asset
           byteSize: 8000
