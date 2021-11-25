@@ -24,7 +24,7 @@ class MyWorkload extends WorkloadModuleBase {
       docType: this.contractId,
       content: '',
       creator: 'client' + this.workerIndex,
-      byteSize: this.byteSize
+      bytesize: this.byteSize
     };
 
     const content = 'content';
@@ -40,14 +40,14 @@ class MyWorkload extends WorkloadModuleBase {
     const batch = [];
     for (let i = 0; i < this.batchSize; i++) {
       const randomID = Math.floor(Math.random() * this.keyCount);
-      this.asset.uuid = `asset_${this.byteSize}_${randomID}`;
+      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${randomID}`;
       const batchAsset = JSON.parse(JSON.stringify(this.asset));
       batch.push(batchAsset);
     }
 
     const request = {
       contractId: this.roundArguments.contractId,
-      contractFunction: 'Batch',
+      contractFunction: 'CreateAssetsFromBatch',
       invokeIdentity: 'User1',
       contractArguments: [JSON.stringify(batch)],
       readonly: false
@@ -58,7 +58,7 @@ class MyWorkload extends WorkloadModuleBase {
 
   async cleanupWorkloadModule() {
     for (let i = 0; i < this.keyCount; i++) {
-      const assetID = `asset_${this.byteSize}_${i}`;
+      const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
       console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
       const request = {
         contractId: this.roundArguments.contractId,
