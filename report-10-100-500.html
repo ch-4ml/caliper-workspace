@@ -154,24 +154,26 @@
                     </tr>
 
                     <tr>
-                         <td>create-asset</td> <td>454</td> <td>0</td> <td>15.3</td> <td>0.30</td> <td>0.08</td> <td>0.17</td> <td>15.2</td>
+                         <td>create-asset</td> <td>1000</td> <td>0</td> <td>42.9</td> <td>0.38</td> <td>0.08</td> <td>0.20</td> <td>42.7</td>
                     </tr>
                     <tr>
-                         <td>batch-create-asset</td> <td>359</td> <td>0</td> <td>12.1</td> <td>0.38</td> <td>0.11</td> <td>0.22</td> <td>12.0</td>
+                         <td>batch-create-asset</td> <td>5</td> <td>0</td> <td>49.5</td> <td>1.18</td> <td>1.08</td> <td>1.13</td> <td>4.2</td>
                     </tr>
                     <tr>
-                         <td>batch-create-asset-limit-keys</td> <td>371</td> <td>0</td> <td>12.5</td> <td>0.38</td> <td>0.12</td> <td>0.21</td> <td>12.4</td>
+                         <td>batch-create-asset-limit-keys</td> <td>5</td> <td>0</td> <td>49.5</td> <td>1.22</td> <td>1.12</td> <td>1.17</td> <td>4.1</td>
                     </tr>
                 </table>
             </div>
             <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="create-asset">
                 <h2>Benchmark round: create-asset</h2>
-                <p>Round to limit the number of keys and generate assets using batch scheduling</p>
-                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 30
-rateControl:
-  type: fixed-load
+                <p>A round to generate assets in a pure way</p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">rateControl:
+  type: maximum-rate
   opts:
-    transactionLoad: 2
+    tps: 50
+    step: 5
+    sampleInterval: 2000
+    includeFailed: false
 </pre>
                         <h3>Performance metrics for create-asset</h3>
                             <table style="min-width: 100%;">
@@ -179,7 +181,7 @@ rateControl:
                                      <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
                                 </tr>
                                 <tr>
-                                     <td>create-asset</td> <td>454</td> <td>0</td> <td>15.3</td> <td>0.30</td> <td>0.08</td> <td>0.17</td> <td>15.2</td>
+                                     <td>create-asset</td> <td>1000</td> <td>0</td> <td>42.9</td> <td>0.38</td> <td>0.08</td> <td>0.20</td> <td>42.7</td>
                                 </tr>
                             </table>
                         <h3>Resource utilization for create-asset</h3>
@@ -187,12 +189,14 @@ rateControl:
 
             <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="batch-create-asset">
                 <h2>Benchmark round: batch-create-asset</h2>
-                <p>Round to limit the number of keys and generate assets using batch scheduling</p>
-                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 30
-rateControl:
-  type: fixed-load
+                <p>A round to generate assets using batch scheduling</p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">rateControl:
+  type: maximum-rate
   opts:
-    transactionLoad: 2
+    tps: 50
+    step: 5
+    sampleInterval: 2000
+    includeFailed: false
 </pre>
                         <h3>Performance metrics for batch-create-asset</h3>
                             <table style="min-width: 100%;">
@@ -200,7 +204,7 @@ rateControl:
                                      <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
                                 </tr>
                                 <tr>
-                                     <td>batch-create-asset</td> <td>359</td> <td>0</td> <td>12.1</td> <td>0.38</td> <td>0.11</td> <td>0.22</td> <td>12.0</td>
+                                     <td>batch-create-asset</td> <td>5</td> <td>0</td> <td>49.5</td> <td>1.18</td> <td>1.08</td> <td>1.13</td> <td>4.2</td>
                                 </tr>
                             </table>
                         <h3>Resource utilization for batch-create-asset</h3>
@@ -208,12 +212,14 @@ rateControl:
 
             <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="batch-create-asset-limit-keys">
                 <h2>Benchmark round: batch-create-asset-limit-keys</h2>
-                <p>Round to limit the number of keys and generate assets using batch scheduling</p>
-                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 30
-rateControl:
-  type: fixed-load
+                <p>A round to limit the number of keys and generate assets using batch scheduling</p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">rateControl:
+  type: maximum-rate
   opts:
-    transactionLoad: 2
+    tps: 50
+    step: 5
+    sampleInterval: 2000
+    includeFailed: false
 </pre>
                         <h3>Performance metrics for batch-create-asset-limit-keys</h3>
                             <table style="min-width: 100%;">
@@ -221,7 +227,7 @@ rateControl:
                                      <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
                                 </tr>
                                 <tr>
-                                     <td>batch-create-asset-limit-keys</td> <td>371</td> <td>0</td> <td>12.5</td> <td>0.38</td> <td>0.12</td> <td>0.21</td> <td>12.4</td>
+                                     <td>batch-create-asset-limit-keys</td> <td>5</td> <td>0</td> <td>49.5</td> <td>1.22</td> <td>1.12</td> <td>1.17</td> <td>4.1</td>
                                 </tr>
                             </table>
                         <h3>Resource utilization for batch-create-asset-limit-keys</h3>
@@ -234,53 +240,60 @@ rateControl:
 description: A test benchmark
 workers:
   type: local
-  number: 2
+  number: 1
 rounds:
   - label: create-asset
-    description: &gt;-
-      Round to limit the number of keys and generate assets using batch
-      scheduling
-    txDuration: 30
+    description: A round to generate assets in a pure way
+    txNumber: 1000
     rateControl:
-      type: fixed-load
+      type: maximum-rate
       opts:
-        transactionLoad: 2
+        tps: 50
+        step: 5
+        sampleInterval: 2000
+        includeFailed: false
     workload:
       module: workload&#x2F;create-asset.js
       arguments:
         contractId: fixed-asset
-        byteSize: 8000
+        byteSize: 10
+        keyCount: 500
   - label: batch-create-asset
-    description: &gt;-
-      Round to limit the number of keys and generate assets using batch
-      scheduling
-    txDuration: 30
+    description: A round to generate assets using batch scheduling
+    txNumber: 5
     rateControl:
-      type: fixed-load
+      type: maximum-rate
       opts:
-        transactionLoad: 2
+        tps: 50
+        step: 5
+        sampleInterval: 2000
+        includeFailed: false
     workload:
       module: workload&#x2F;batch-create-asset.js
       arguments:
         contractId: fixed-asset
-        byteSize: 8000
-        batchSize: 10
+        byteSize: 10
+        batchSize: 100
+        keyCount: 500
   - label: batch-create-asset-limit-keys
     description: &gt;-
-      Round to limit the number of keys and generate assets using batch
+      A round to limit the number of keys and generate assets using batch
       scheduling
-    txDuration: 30
+    txNumber: 5
     rateControl:
-      type: fixed-load
+      type: maximum-rate
       opts:
-        transactionLoad: 2
+        tps: 50
+        step: 5
+        sampleInterval: 2000
+        includeFailed: false
     workload:
       module: workload&#x2F;batch-create-asset-limit-keys.js
       arguments:
         contractId: fixed-asset
-        byteSize: 8000
-        batchSize: 10
-        keyCount: 5
+        byteSize: 10
+        batchSize: 100
+        keyCount: 500
 </pre>
                 <h3>SUT</h3>
                 <pre id="sutdetails">not provided</pre>

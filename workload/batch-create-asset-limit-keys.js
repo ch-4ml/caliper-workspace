@@ -29,7 +29,7 @@ class MyWorkload extends WorkloadModuleBase {
 
     const content = 'content';
     let idx = 0;
-    while (bytes(JSON.stringify(this.asset)) < this.byteSize) {
+    while (bytes(JSON.stringify(this.asset.content)) < this.byteSize) {
       const letter = content.charAt(idx);
       idx = idx >= content.length ? 0 : idx + 1;
       this.asset.content = this.asset.content + letter;
@@ -40,9 +40,16 @@ class MyWorkload extends WorkloadModuleBase {
     const batch = [];
     for (let i = 0; i < this.batchSize; i++) {
       const randomID = Math.floor(Math.random() * this.keyCount);
-      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${randomID}`;
-      const batchAsset = JSON.parse(JSON.stringify(this.asset));
-      batch.push(batchAsset);
+      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${randomID + this.roundIndex * this.keyCount}`;
+
+      const existDataIndex = batch.findIndex((b) => b.uuid === this.asset.uuid);
+      if (existDataIndex > -1) batch[existDataIndex].content += ' ' + this.asset.content;
+      else {
+        const batchAsset = JSON.parse(JSON.stringify(this.asset));
+        batch.push(batchAsset);
+      }
+      // const batchAsset = JSON.parse(JSON.stringify(this.asset));
+      // batch.push(batchAsset);
     }
 
     const request = {
@@ -57,19 +64,18 @@ class MyWorkload extends WorkloadModuleBase {
   }
 
   async cleanupWorkloadModule() {
-    for (let i = 0; i < this.keyCount; i++) {
-      const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
-      console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
-      const request = {
-        contractId: this.roundArguments.contractId,
-        contractFunction: 'DeleteAsset',
-        invokerIdentity: 'User1',
-        contractArguments: [assetID],
-        readonly: false
-      };
-
-      await this.sutAdapter.sendRequests(request);
-    }
+    // for (let i = this.roundIndex * this.keyCount; i < (this.roundIndex + 1) * this.keyCount; i++) {
+    //   const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
+    //   console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
+    //   const request = {
+    //     contractId: this.roundArguments.contractId,
+    //     contractFunction: 'DeleteAsset',
+    //     invokerIdentity: 'User1',
+    //     contractArguments: [assetID],
+    //     readonly: false
+    //   };
+    //   await this.sutAdapter.sendRequests(request);
+    //}
   }
 }
 

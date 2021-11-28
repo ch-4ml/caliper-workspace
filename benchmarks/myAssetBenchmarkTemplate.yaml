@@ -19,12 +19,12 @@ test:
         module: workload/create-asset.js
         arguments:
           contractId: fixed-asset
-          byteSize: 1000
-          keyCount: 1000
+          byteSize: BYTE_SIZE
+          keyCount: KEY_COUNT
 
     - label: batch-create-asset
       description: A round to generate assets using batch scheduling
-      txNumber: 1
+      txNumber: TX_NUMBER_FOR_BATCH
       rateControl:
         type: maximum-rate
         opts:
@@ -36,13 +36,13 @@ test:
         module: workload/batch-create-asset.js
         arguments:
           contractId: fixed-asset
-          byteSize: 1000
-          batchSize: 1000
-          keyCount: 1000
+          byteSize: BYTE_SIZE
+          batchSize: BATCH_SIZE
+          keyCount: KEY_COUNT
 
     - label: batch-create-asset-limit-keys
       description: A round to limit the number of keys and generate assets using batch scheduling
-      txNumber: 1
+      txNumber: TX_NUMBER_FOR_BATCH
       rateControl:
         type: maximum-rate
         opts:
@@ -54,9 +54,9 @@ test:
         module: workload/batch-create-asset-limit-keys.js
         arguments:
           contractId: fixed-asset
-          byteSize: 1000
-          batchSize: 1000
-          keyCount: 1000
+          byteSize: BYTE_SIZE
+          batchSize: BATCH_SIZE
+          keyCount: KEY_COUNT
 
     # - label: query-history-of-batch-create-asset-limit-keys
     #   description: Round to get history for uuid

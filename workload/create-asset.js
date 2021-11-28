@@ -6,7 +6,7 @@
 
 // Investigate submitTransaction() using network model to create an asset of specific size in the registry
 // - label: create-asset-100
-//     chaincodeID: fixed-asset
+//     contractId: fixed-asset
 //     txNumber:
 //     - 1000
 //     rateControl:
@@ -14,7 +14,7 @@
 //       opts:
 //         tps: 50
 //     arguments:
-//       chaincodeID: fixed-asset | fixed-asset-base
+//       contractId: fixed-asset | fixed-asset-base
 //       byteSize: 100
 //     callback: benchmark/network-model/lib/create-asset.js
 
@@ -50,11 +50,12 @@ class CreateAssetWorkload extends WorkloadModuleBase {
     await super.initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext);
 
     this.args = this.roundArguments;
-    this.chaincodeID = this.args.chaincodeID ? this.args.chaincodeID : 'fixed-asset';
+    this.contractId = this.args.contractId ? this.args.contractId : 'fixed-asset';
     this.byteSize = this.args.byteSize;
+    this.keyCount = this.args.keyCount ? parseInt(this.args.keyCount) : 1;
 
     this.asset = {
-      docType: this.chaincodeID,
+      docType: this.contractId,
       content: '',
       creator: 'client' + this.workerIndex,
       bytesize: this.byteSize
@@ -62,7 +63,7 @@ class CreateAssetWorkload extends WorkloadModuleBase {
 
     const content = 'content';
     let idx = 0;
-    while (bytes(JSON.stringify(this.asset)) < this.byteSize) {
+    while (bytes(JSON.stringify(this.asset.content)) < this.byteSize) {
       const letter = content.charAt(idx);
       idx = idx >= content.length ? 0 : idx + 1;
       this.asset.content = this.asset.content + letter;
@@ -74,14 +75,14 @@ class CreateAssetWorkload extends WorkloadModuleBase {
    * @return {Promise<TxStatus[]>}
    */
   async submitTransaction() {
-    const uuid = `client${this.workerIndex}_${this.byteSize}_${this.txIndex}`;
-    this.asset.uuid = uuid;
+    const index = this.txIndex >= this.keyCount ? this.txIndex % this.keyCount : this.txIndex;
+    this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${index + this.roundIndex * this.keyCount}`;
     this.txIndex++;
     const request = {
-      contractId: this.chaincodeID,
+      contractId: this.contractId,
       contractFunction: 'createAsset',
       invokeIdentity: 'User1',
-      contractArguments: [uuid, JSON.stringify(this.asset)],
+      contractArguments: [this.asset.uuid, JSON.stringify(this.asset)],
       readOnly: false
     };
 
@@ -89,19 +90,20 @@ class CreateAssetWorkload extends WorkloadModuleBase {
   }
 
   async cleanupWorkloadModule() {
-    for (let i = 0; i < this.txIndex; i++) {
-      const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
-      console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
-      const request = {
-        contractId: this.roundArguments.contractId,
-        contractFunction: 'DeleteAsset',
-        invokerIdentity: 'User1',
-        contractArguments: [assetID],
-        readonly: false
-      };
-
-      await this.sutAdapter.sendRequests(request);
-    }
+    // for (let i = this.roundIndex * this.keyCount; i < (this.roundIndex + 1) * this.keyCount; i++) {
+    //   if (this.workerIndex === 0) {
+    //     const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
+    //     console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
+    //     const request = {
+    //       contractId: this.roundArguments.contractId,
+    //       contractFunction: 'DeleteAsset',
+    //       invokerIdentity: 'User1',
+    //       contractArguments: [assetID],
+    //       readonly: false
+    //     };
+    //     await this.sutAdapter.sendRequests(request);
+    //   }
+    // }
   }
 }
 

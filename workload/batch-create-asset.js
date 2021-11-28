@@ -9,7 +9,6 @@ const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
 class MyWorkload extends WorkloadModuleBase {
   constructor() {
     super();
-    this.txIndex = 0;
   }
 
   async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext) {
@@ -19,6 +18,7 @@ class MyWorkload extends WorkloadModuleBase {
     this.contractId = this.args.contractId ? this.args.contractId : 'fixed-asset';
     this.byteSize = this.args.byteSize ? parseInt(this.args.byteSize) : 100;
     this.batchSize = this.args.batchSize ? parseInt(this.args.batchSize) : 1;
+    this.keyCount = this.args.keyCount ? parseInt(this.args.keyCount) : 1;
 
     this.asset = {
       docType: this.contractId,
@@ -29,7 +29,7 @@ class MyWorkload extends WorkloadModuleBase {
 
     const content = 'content';
     let idx = 0;
-    while (bytes(JSON.stringify(this.asset)) < this.byteSize) {
+    while (bytes(JSON.stringify(this.asset.content)) < this.byteSize) {
       const letter = content.charAt(idx);
       idx = idx >= content.length ? 0 : idx + 1;
       this.asset.content = this.asset.content + letter;
@@ -39,10 +39,10 @@ class MyWorkload extends WorkloadModuleBase {
   async submitTransaction() {
     const batch = [];
     for (let i = 0; i < this.batchSize; i++) {
-      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${this.txIndex}`;
+      const index = i >= this.keyCount ? i % this.keyCount : i;
+      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${index + this.roundIndex * this.keyCount}`;
       const batchAsset = JSON.parse(JSON.stringify(this.asset));
       batch.push(batchAsset);
-      this.txIndex++;
     }
 
     const request = {
@@ -57,19 +57,20 @@ class MyWorkload extends WorkloadModuleBase {
   }
 
   async cleanupWorkloadModule() {
-    for (let i = 0; i < this.batchSize; i++) {
-      const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
-      console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
-      const request = {
-        contractId: this.roundArguments.contractId,
-        contractFunction: 'DeleteAsset',
-        invokerIdentity: 'User1',
-        contractArguments: [assetID],
-        readonly: false
-      };
-
-      await this.sutAdapter.sendRequests(request);
-    }
+    // for (let i = this.roundIndex * this.keyCount; i < (this.roundIndex + 1) * this.keyCount; i++) {
+    //   if (this.workerIndex === 0) {
+    //     const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
+    //     console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
+    //     const request = {
+    //       contractId: this.roundArguments.contractId,
+    //       contractFunction: 'DeleteAsset',
+    //       invokerIdentity: 'User1',
+    //       contractArguments: [assetID],
+    //       readonly: false
+    //     };
+    //     await this.sutAdapter.sendRequests(request);
+    //   }
+    // }
   }
 }
 
