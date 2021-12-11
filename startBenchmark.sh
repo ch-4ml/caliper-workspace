@@ -3,13 +3,21 @@
 # $1: Byte Size
 # $2: Batch Size
 # $3: Key Count
-TX_NUMBER_FOR_BATCH=`expr $3 / $2`
-echo $TX_NUMBER_FOR_BATCH
 
 if [ $# -ne 3 ]; then
-  echo "Wrong arguments. expected 3 (Byte Size, Batch Size, Key Count)"
+  echo "Wrong arguments. expected 3 (Model Number, Byte Size, Batch Size, Key Count)"
   exit 0
 fi
+
+# if [ $1 -eq 1 ]; then
+#   WORKLOAD_MODULE=
+# elif [ $1 -eq 2]; then
+
+# else 
+
+# fi
+
+
 
 # # Network up
 pushd /home/bstudent/dev/hyperledger-fabric-performance-improvement/application
@@ -33,10 +41,9 @@ cp benchmarks/myAssetBenchmarkTemplate.yaml benchmarks/myAssetBenchmark.yaml
 sed -i "s/BYTE_SIZE/$1/g" benchmarks/myAssetBenchmark.yaml
 sed -i "s/BATCH_SIZE/$2/g" benchmarks/myAssetBenchmark.yaml
 sed -i "s/KEY_COUNT/$3/g" benchmarks/myAssetBenchmark.yaml
-sed -i "s/TX_NUMBER_FOR_BATCH/${TX_NUMBER_FOR_BATCH}/g" benchmarks/myAssetBenchmark.yaml
 
 # Run benchmark
 npx caliper launch manager --caliper-workspace . --caliper-networkconfig networks/networkConfig.yaml --caliper-benchconfig benchmarks/myAssetBenchmark.yaml --caliper-flow-only-test --caliper-fabric-gateway-enabled
 
 # Rename report file
-mv report.html report-$1-$2-$3.html
+mv report.html report/views/report-$1-$2-$3.html
