@@ -1,0 +1,35 @@
+{
+  "dup": {
+    "batchSize50-keyCount50": "18",
+    "batchSize50-keyCount100": "10",
+    "batchSize50-keyCount500": "2",
+    "batchSize100-keyCount50": "57",
+    "batchSize100-keyCount100": "37",
+    "batchSize100-keyCount500": "9",
+    "batchSize500-keyCount50": "450",
+    "batchSize500-keyCount100": "401",
+    "batchSize500-keyCount500": "184"
+  },
+  "tts": {
+    "batchSize50-keyCount50": "0.00010644",
+    "batchSize50-keyCount100": "0.00011286",
+    "batchSize50-keyCount500": "0.00011855",
+    "batchSize100-keyCount50": "0.00019889",
+    "batchSize100-keyCount100": "0.00023007",
+    "batchSize100-keyCount500": "0.00028925",
+    "batchSize500-keyCount50": "0.00103516",
+    "batchSize500-keyCount100": "0.00116291",
+    "batchSize500-keyCount500": "0.00178898"
+  },
+  "ttu": {
+    "batchSize50-keyCount50": "0.00004311",
+    "batchSize50-keyCount100": "0.00004367",
+    "batchSize50-keyCount500": "0.00004330",
+    "batchSize100-keyCount50": "0.00008174",
+    "batchSize100-keyCount100": "0.00008310",
+    "batchSize100-keyCount500": "0.00007496",
+    "batchSize500-keyCount50": "0.00034970",
+    "batchSize500-keyCount100": "0.00035485",
+    "batchSize500-keyCount500": "0.00031787"
+  }
+}
