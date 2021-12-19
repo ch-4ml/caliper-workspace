@@ -1,0 +1,31 @@
+{
+  "ttp": {
+    "byteSize50-batchSize50-keyCount50": "0.00004474",
+    "byteSize50-batchSize50-keyCount100": "0.00004451",
+    "byteSize50-batchSize50-keyCount500": "0.00004473",
+    "byteSize50-batchSize100-keyCount50": "0.00007967",
+    "byteSize50-batchSize100-keyCount100": "0.00007917",
+    "byteSize50-batchSize100-keyCount500": "0.00007901",
+    "byteSize50-batchSize500-keyCount50": "0.00029891",
+    "byteSize50-batchSize500-keyCount100": "0.00032918",
+    "byteSize50-batchSize500-keyCount500": "0.00028674",
+    "byteSize100-batchSize50-keyCount50": "0.00005753",
+    "byteSize100-batchSize50-keyCount100": "0.00005795",
+    "byteSize100-batchSize50-keyCount500": "0.00005811",
+    "byteSize100-batchSize100-keyCount50": "0.00010209",
+    "byteSize100-batchSize100-keyCount100": "0.00010257",
+    "byteSize100-batchSize100-keyCount500": "0.00010208",
+    "byteSize100-batchSize500-keyCount50": "0.00026897",
+    "byteSize100-batchSize500-keyCount100": "0.00025082",
+    "byteSize100-batchSize500-keyCount500": "0.00024044",
+    "byteSize500-batchSize50-keyCount50": "0.00011175",
+    "byteSize500-batchSize50-keyCount100": "0.00011160",
+    "byteSize500-batchSize50-keyCount500": "0.00011151",
+    "byteSize500-batchSize100-keyCount50": "0.00016448",
+    "byteSize500-batchSize100-keyCount100": "0.00013842",
+    "byteSize500-batchSize100-keyCount500": "0.00014011",
+    "byteSize500-batchSize500-keyCount50": "0.00052231",
+    "byteSize500-batchSize500-keyCount100": "0.00055640",
+    "byteSize500-batchSize500-keyCount500": "0.00054705"
+  }
+}

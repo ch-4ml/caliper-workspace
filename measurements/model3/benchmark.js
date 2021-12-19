@@ -1,11 +1,10 @@
 const fs = require('fs');
 const { hrtime } = require('process');
 
-const BYTE_SIZE = 100;
 const NS_PER_SEC = 1e9;
 
-if (!process.argv[2] || !process.argv[3]) {
-  console.log(`Expected 2 arguments. ex) node benchmark [BATCH_SIZE] [KEY_COUNT]`);
+if (!process.argv[2] || !process.argv[3] || !process.argv[4]) {
+  console.log(`Expected 2 arguments. ex) node benchmark [byteSize] [BATCH_SIZE] [KEY_COUNT]`);
   process.exit(1);
 }
 
@@ -29,8 +28,9 @@ try {
   let tts = JSON.parse(ttsFile);
   let ttu = JSON.parse(ttuFile);
 
-  const batchSize = process.argv[2];
-  const keyCount = process.argv[3];
+  const byteSize = process.argv[2];
+  const batchSize = process.argv[3];
+  const keyCount = process.argv[4];
 
   // Declare function
   const work = (batchSize, keyCount) => {
@@ -46,12 +46,12 @@ try {
         docType: 'docType',
         content: '',
         creator: 'client1',
-        bytesize: BYTE_SIZE
+        bytesize: byteSize
       };
 
       const content = 'content';
       let idx = 0;
-      while (bytes(JSON.stringify(asset.content)) < BYTE_SIZE) {
+      while (bytes(JSON.stringify(asset.content)) < byteSize) {
         const letter = content.charAt(idx);
         idx = idx >= content.length ? 0 : idx + 1;
         asset.content = asset.content + letter;
@@ -80,7 +80,7 @@ try {
     ttsResult = ttsResult.toFixed(8);
     ttuResult = ttuResult.toFixed(8);
 
-    const key = `batchSize${batchSize}-keyCount${keyCount}`;
+    const key = `byteSize${byteSize}-batchSize${batchSize}-keyCount${keyCount}`;
 
     if (dup[key] && dup[key].length > 0) dup[key].push(dupResult);
     else dup[key] = [dupResult];

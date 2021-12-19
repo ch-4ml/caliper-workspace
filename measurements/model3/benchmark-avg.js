@@ -25,12 +25,14 @@ try {
   avg.tts = {};
   avg.ttu = {};
 
-  for (let batchSize of range) {
-    for (let keyCount of range) {
-      const key = `batchSize${batchSize}-keyCount${keyCount}`;
-      avg.dup[key] = (dup[key].reduce((acc, cur) => acc + cur) / 100).toFixed(0);
-      avg.tts[key] = (tts[key].reduce((acc, cur) => parseFloat(acc) + parseFloat(cur)) / 100).toFixed(8);
-      avg.ttu[key] = (ttu[key].reduce((acc, cur) => parseFloat(acc) + parseFloat(cur)) / 100).toFixed(8);
+  for (let byteSize of range) {
+    for (let batchSize of range) {
+      for (let keyCount of range) {
+        const key = `byteSize${byteSize}-batchSize${batchSize}-keyCount${keyCount}`;
+        avg.dup[key] = (dup[key].reduce((acc, cur) => acc + cur) / 1000).toFixed(0);
+        avg.tts[key] = (tts[key].reduce((acc, cur) => parseFloat(acc) + parseFloat(cur)) / 1000).toFixed(8);
+        avg.ttu[key] = (ttu[key].reduce((acc, cur) => parseFloat(acc) + parseFloat(cur)) / 1000).toFixed(8);
+      }
     }
   }
 

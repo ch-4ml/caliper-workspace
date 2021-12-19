@@ -12,4 +12,10 @@ router.get('/:page', (req, res) => {
   res.render(`report-${page}.html`);
 });
 
+// Commit
+router.get('/commit/:page', (req, res) => {
+  const page = req.params.page;
+  res.render(`commit-report-${page}.html`);
+});
+
 module.exports = router;

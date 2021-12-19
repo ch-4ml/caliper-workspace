@@ -1,0 +1,42 @@
+test:
+  name: fixed-asset-benchmark
+  description: A test benchmark
+  workers:
+    type: local
+    number: 1
+  rounds:
+    - label: m3-transmission
+      description: A round to limit the number of keys and generate assets using batch scheduling
+      txNumber: 1000
+      rateControl:
+        type: maximum-rate
+        opts:
+          tps: 50
+          step: 5
+          sampleInterval: 2000
+          includeFailed: false
+      workload:
+        module: workload/m3-transmission.js
+        arguments:
+          contractId: fixed-asset
+          byteSize: BYTE_SIZE
+          batchSize: BATCH_SIZE
+          keyCount: KEY_COUNT
+
+    - label: m2-transmission
+      description: A round to generate assets using batch scheduling
+      txNumber: 1000
+      rateControl:
+        type: maximum-rate
+        opts:
+          tps: 50
+          step: 5
+          sampleInterval: 2000
+          includeFailed: false
+      workload:
+        module: workload/m2-transmission.js
+        arguments:
+          contractId: fixed-asset
+          byteSize: BYTE_SIZE
+          batchSize: BATCH_SIZE
+          keyCount: KEY_COUNT

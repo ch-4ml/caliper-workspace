@@ -34,44 +34,34 @@ class MyWorkload extends WorkloadModuleBase {
       idx = idx >= content.length ? 0 : idx + 1;
       this.asset.content = this.asset.content + letter;
     }
+
+    this.batch = new Array();
+    for (let i = 0; i < this.batchSize; i++) {
+      const randomID = Math.floor(Math.random() * this.keyCount);
+      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${randomID + this.roundIndex * this.keyCount}`;
+
+      const existDataIndex = this.batch.findIndex((b) => b.uuid === this.asset.uuid);
+      if (existDataIndex > -1) this.batch[existDataIndex].content += ' ' + this.asset.content;
+      else {
+        const batchAsset = JSON.parse(JSON.stringify(this.asset));
+        this.batch.push(batchAsset);
+      }
+    }
   }
 
   async submitTransaction() {
-    const batch = [];
-    for (let i = 0; i < this.batchSize; i++) {
-      const index = i >= this.keyCount ? i % this.keyCount : i;
-      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${index + this.roundIndex * this.keyCount}`;
-      const batchAsset = JSON.parse(JSON.stringify(this.asset));
-      batch.push(batchAsset);
-    }
-
     const request = {
       contractId: this.roundArguments.contractId,
-      contractFunction: 'CreateAssetsFromBatch',
+      contractFunction: 'MeasureTrasmissionTime',
       invokeIdentity: 'User1',
-      contractArguments: [JSON.stringify(batch)],
-      readonly: false
+      contractArguments: [JSON.stringify(this.batch)],
+      readonly: true
     };
 
     await this.sutAdapter.sendRequests(request);
   }
 
-  async cleanupWorkloadModule() {
-    // for (let i = this.roundIndex * this.keyCount; i < (this.roundIndex + 1) * this.keyCount; i++) {
-    //   if (this.workerIndex === 0) {
-    //     const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
-    //     console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
-    //     const request = {
-    //       contractId: this.roundArguments.contractId,
-    //       contractFunction: 'DeleteAsset',
-    //       invokerIdentity: 'User1',
-    //       contractArguments: [assetID],
-    //       readonly: false
-    //     };
-    //     await this.sutAdapter.sendRequests(request);
-    //   }
-    // }
-  }
+  async cleanupWorkloadModule() {}
 }
 
 function createWorkloadModule() {

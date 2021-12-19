@@ -39,44 +39,24 @@ class MyWorkload extends WorkloadModuleBase {
   async submitTransaction() {
     const batch = [];
     for (let i = 0; i < this.batchSize; i++) {
-      const randomID = Math.floor(Math.random() * this.keyCount);
-      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${randomID + this.roundIndex * this.keyCount}`;
-
-      const existDataIndex = batch.findIndex((b) => b.uuid === this.asset.uuid);
-      if (existDataIndex > -1) batch[existDataIndex].content += ' ' + this.asset.content;
-      else {
-        const batchAsset = JSON.parse(JSON.stringify(this.asset));
-        batch.push(batchAsset);
-      }
-      // const batchAsset = JSON.parse(JSON.stringify(this.asset));
-      // batch.push(batchAsset);
+      const index = i >= this.keyCount ? i % this.keyCount : i;
+      this.asset.uuid = `client${this.workerIndex}_${this.byteSize}_${index + this.roundIndex * this.keyCount}`;
+      const batchAsset = JSON.parse(JSON.stringify(this.asset));
+      batch.push(batchAsset);
     }
 
     const request = {
       contractId: this.roundArguments.contractId,
-      contractFunction: 'CreateAssetsFromBatch',
+      contractFunction: 'MeasureTrasmissionTime',
       invokeIdentity: 'User1',
       contractArguments: [JSON.stringify(batch)],
-      readonly: false
+      readonly: true
     };
 
     await this.sutAdapter.sendRequests(request);
   }
 
-  async cleanupWorkloadModule() {
-    // for (let i = this.roundIndex * this.keyCount; i < (this.roundIndex + 1) * this.keyCount; i++) {
-    //   const assetID = `client${this.workerIndex}_${this.byteSize}_${i}`;
-    //   console.log(`Worker ${this.workerIndex}: Deleting asset ${assetID}`);
-    //   const request = {
-    //     contractId: this.roundArguments.contractId,
-    //     contractFunction: 'DeleteAsset',
-    //     invokerIdentity: 'User1',
-    //     contractArguments: [assetID],
-    //     readonly: false
-    //   };
-    //   await this.sutAdapter.sendRequests(request);
-    //}
-  }
+  async cleanupWorkloadModule() {}
 }
 
 function createWorkloadModule() {

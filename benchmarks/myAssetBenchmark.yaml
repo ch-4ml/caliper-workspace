@@ -5,7 +5,7 @@ test:
     type: local
     number: 1
   rounds:
-    # 데이터 생성 성능 측정
+    # 데이터 생성 성능 측정 시작------------------------------------------------------------------
 
     # - label: create-asset
     #   description: A round to generate assets in a pure way
@@ -21,8 +21,8 @@ test:
     #     module: workload/create-asset.js
     #     arguments:
     #       contractId: fixed-asset
-    #       byteSize: 1000
-    #       keyCount: 10
+    #       byteSize: 50
+    #       keyCount: 100
 
     - label: batch-create-asset-limit-keys
       description: A round to limit the number of keys and generate assets using batch scheduling
@@ -38,9 +38,9 @@ test:
         module: workload/batch-create-asset-limit-keys.js
         arguments:
           contractId: fixed-asset
-          byteSize: 1000
-          batchSize: 1000
-          keyCount: 10
+          byteSize: 50
+          batchSize: 50
+          keyCount: 100
 
     - label: batch-create-asset
       description: A round to generate assets using batch scheduling
@@ -56,9 +56,9 @@ test:
         module: workload/batch-create-asset.js
         arguments:
           contractId: fixed-asset
-          byteSize: 1000
-          batchSize: 1000
-          keyCount: 10
+          byteSize: 50
+          batchSize: 50
+          keyCount: 100
 
     # - label: query-history-of-batch-create-asset-limit-keys
     #   description: Round to get history for uuid
@@ -74,70 +74,6 @@ test:
     #       byteSize: 1000
     #       batchSize: 100
     #       keyCount: 10
-# monitors:
-#   type:
-#     - docker:
-#     # - process:
-#     - prometheus:
+    # 데이터 생성 성능 측정 종료 ------------------------------------------------------------------
 
-#   docker:
-#     containers:
-#       - all
-
-#   prometheus:
-#     url: 'http://localhost:9090'
-#     push_url: 'http://localhost:9091'
-#   metrics:
-#     ignore: [prometheus, pushGateway, cadvisor, grafana, node-exporter]
-#     include:
-#       Endorse Time (s):
-#         query: rate(endorser_propsal_duration_sum{chaincode="marbles:v0"}[5m])/rate(endorser_propsal_duration_count{chaincode="marbles:v0"}[5m])
-#         step: 1
-#         label: instance
-#         statistic: avg
-#       Max Memory (MB):
-#         query: sum(container_memory_rss{name=~".+"}) by (name)
-#         step: 10
-#         label: name
-#         statistic: max
-#         multiplier: 0.000001
-#       Avg Memory (MB):
-#         query: 'sum(container_memory_rss{name=~".+"}) by (name)'
-#         step: 10
-#         label: name
-#         statistic: avg
-#         multiplier: 0.000001
-#       CPU (%):
-#         query: sum(rate(container_cpu_usage_seconds_total{name=~".+"}[1m])) by (name)
-#         step: 10
-#         label: name
-#         statistic: avg
-#         multiplier: 100
-#       Network In (MB):
-#         query: sum(rate(container_network_receive_bytes_total{name=~".+"}[1m])) by (name)
-#         step: 10
-#         label: name
-#         statistic: sum
-#         multiplier: 0.000001
-#       Network Out (MB):
-#         query: sum(rate(container_network_transmit_bytes_total{name=~".+"}[1m])) by (name)
-#         step: 10
-#         label: name
-#         statistic: sum
-#         multiplier: 0.000001
-#       Disc Write (MB):
-#         query: sum(rate(container_fs_writes_bytes_total{name=~".+"}[1m])) by (name)
-#         step: 10
-#         label: name
-#         statistic: sum
-#         multiplier: 0.000001
-#       Disc Read (MB):
-#         query: sum(rate(container_fs_reads_bytes_total{name=~".+"}[1m])) by (name)
-#         step: 10
-#         label: name
-#         statistic: sum
-#         multiplier: 0.000001
-
-# observer:
-#   type: prometheus
-#   interval: 5
+    # 데이터 사이즈가 100, 500일 때 키 중복 횟

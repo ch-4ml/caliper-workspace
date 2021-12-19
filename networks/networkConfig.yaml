@@ -15,7 +15,7 @@ organizations:
       certificates:
         - name: 'User1'
           clientPrivateKey:
-            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/acde0a8ea6dfffa15ae0dd6633c3e5d6c4b3999153412eb5f5f66bf58c662a3f_sk'
+            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/0d380be012ce8f9433e4be99c823faef677f34f387241480b6f4b3a8e819fede_sk'
           clientSignedCert:
             path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem'
     connectionProfile:
@@ -27,7 +27,7 @@ organizations:
       certificates:
         - name: 'User1'
           clientPrivateKey:
-            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/keystore/7b34a5b3e7cde7161ef0efd228acea9ea8ea5c6595e43e7e6e624506c4949ae7_sk'
+            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/keystore/7636db89c09256d2c1b2b5c05a7a06502e1b21b665836cfa5cb82bb5e977f438_sk'
           clientSignedCert:
             path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/signcerts/cert.pem'
     connectionProfile:
@@ -39,7 +39,7 @@ organizations:
       certificates:
         - name: 'User1'
           clientPrivateKey:
-            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org3.example.com/users/User1@org3.example.com/msp/keystore/a5753b62646db01853f1d1118629cb2f92d014f54b875e05c1d25c26b535aa0f_sk'
+            path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org3.example.com/users/User1@org3.example.com/msp/keystore/e837784acda98c21b32389c48acbff4975144fd69839760dd213072b7f839a1a_sk'
           clientSignedCert:
             path: '/home/bstudent/dev/hyperledger-fabric-performance-improvement/network/organizations/peerOrganizations/org3.example.com/users/User1@org3.example.com/msp/signcerts/cert.pem'
     connectionProfile:
